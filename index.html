@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Asset by Roxy+</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #0f0c29;
+            --secondary-bg: #302b63;
+            --accent-color: #8e44ad;
+            --text-color: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --button-hover: #9b59b6;
+            --success-color: #2ecc71;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--primary-bg), var(--secondary-bg), #24243e);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 5s infinite;
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0;
+                transform: translateY(0);
+            }
+
+            50% {
+                opacity: 1;
+                transform: translateY(-20px);
+            }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 700px;
+            background: rgba(15, 12, 41, 0.7);
+            backdrop-filter: blur(15px);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            text-align: center;
+            animation: fadeIn 1s ease-out;
+        }
+
+        h2 {
+            font-weight: 600;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #c471ed, #f64f59);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.5rem;
+            letter-spacing: 1px;
+        }
+
+        p {
+            color: #d1d1d1;
+            margin-bottom: 25px;
+            font-weight: 300;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 50px;
+            border: 2px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px rgba(142, 68, 173, 0.4);
+        }
+
+        button.action-btn {
+            background: linear-gradient(45deg, var(--accent-color), #c0392b);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            transition: transform 0.2s, box-shadow 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button.action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(192, 57, 43, 0.4);
+        }
+
+        button.action-btn:active {
+            transform: translateY(0);
+        }
+
+        #results {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .asset-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid var(--glass-border);
+            transition: transform 0.3s, background 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            animation: slideUp 0.5s forwards;
+        }
+
+        .asset-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .asset-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .asset-info {
+            font-size: 12px;
+            margin-bottom: 15px;
+            color: #ccc;
+            text-align: left;
+            width: 100%;
+        }
+
+        .asset-info strong {
+            color: var(--accent-color);
+        }
+
+        .copy-btn {
+            background: transparent;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+            width: 100%;
+            font-weight: 500;
+        }
+
+        .copy-btn:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .copy-btn.copied {
+            background: var(--success-color);
+            border-color: var(--success-color);
+            color: white;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f0c29;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #8e44ad;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9b59b6;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="background-animation" id="bgAnimation">
+
+    </div>
+
+    <div class="container">
+        <h2>Discord Asset Fetcher</h2>
+        <p>Enter your Application ID below to preview and grab your assets.</p>
+
+        <div class="input-group">
+            <input type="text" id="appId" placeholder="Application ID" autocomplete="off">
+        </div>
+
+        <button class="action-btn" onclick="fetchAssets()">F E T C H</button>
+
+        <div id="results"></div>
+    </div>
+
+    <script>
+
+        const bgAnimation = document.getElementById('bgAnimation');
+        for (let i = 0; i < 50; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDuration = Math.random() * 5 + 3 + 's';
+            bgAnimation.appendChild(star);
+        }
+
+        async function fetchAssets() {
+            const appId = document.getElementById('appId').value.trim();
+            const resultsDiv = document.getElementById('results');
+
+            if (!appId) {
+                shakeInput();
+                return;
+            }
+
+            resultsDiv.innerHTML = "<p style='color: #a64d79;'>Summoning assets...</p>";
+
+            try {
+
+
+                const response = await fetch(`https://discord.com/api/v9/oauth2/applications/${appId}/assets`);
+
+                if (!response.ok) throw new Error("Assets not found or Invalid ID.");
+
+                const data = await response.json();
+                resultsDiv.innerHTML = "";
+
+                if (data.length === 0) {
+                    resultsDiv.innerHTML = "<p>No assets found for this application.</p>";
+                    return;
+                }
+
+                data.forEach((asset, index) => {
+                    const imageUrl = `https://cdn.discordapp.com/app-assets/${appId}/${asset.id}.png`;
+
+                    const card = document.createElement('div');
+                    card.className = 'asset-card';
+                    card.style.animationDelay = `${index * 0.1}s`;
+
+                    card.innerHTML = `
+                    <img src="${imageUrl}" alt="${asset.name}" onerror="this.src='https://via.placeholder.com/150/000000/FFFFFF/?text=No+Image'">
+                    <div class="asset-info">
+                        <strong>Name:</strong> ${asset.name}<br>
+                        <strong>ID:</strong> <span style="font-family: monospace;">${asset.id}</span>
+                    </div>
+                    <button class="copy-btn" onclick="copyToClipboard(this, '${imageUrl}')">Copy URL</button>
+                `;
+                    resultsDiv.appendChild(card);
+                });
+
+            } catch (error) {
+                resultsDiv.innerHTML = `<p style="color: #e74c3c;">${error.message}</p><p style="font-size: 12px; opacity: 0.7;">(Ensure you have access or CORS is handled)</p>`;
+            }
+        }
+
+        function copyToClipboard(button, text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.innerText;
+
+
+                button.innerText = "Copied!";
+                button.classList.add('copied');
+
+
+                setTimeout(() => {
+                    button.innerText = originalText;
+                    button.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy', err);
+                button.innerText = "Failed";
+            });
+        }
+
+        function shakeInput() {
+            const input = document.getElementById('appId');
+            input.style.transform = "translateX(5px)";
+            setTimeout(() => input.style.transform = "translateX(-5px)", 50);
+            setTimeout(() => input.style.transform = "translateX(5px)", 100);
+            setTimeout(() => input.style.transform = "translateX(0)", 150);
+            input.style.borderColor = "#e74c3c";
+            setTimeout(() => input.style.borderColor = "", 1000);
+        }
+    </script>
+
+</body>
+
+</html>
