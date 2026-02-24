@@ -56,17 +56,8 @@
         }
 
         @keyframes twinkle {
-
-            0%,
-            100% {
-                opacity: 0;
-                transform: translateY(0);
-            }
-
-            50% {
-                opacity: 1;
-                transform: translateY(-20px);
-            }
+            0%, 100% { opacity: 0; transform: translateY(0); }
+            50% { opacity: 1; transform: translateY(-20px); }
         }
 
         .container {
@@ -144,6 +135,26 @@
             transform: translateY(0);
         }
 
+        /* NEW CSS FOR DEFAULT OPTION */
+        .default-option {
+            margin-top: 15px;
+            font-size: 13px;
+            color: #aaa;
+            margin-bottom: 0;
+        }
+
+        .default-option span {
+            color: #c471ed;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: underline;
+            transition: color 0.3s;
+        }
+
+        .default-option span:hover {
+            color: #f64f59;
+        }
+
         #results {
             margin-top: 30px;
             display: grid;
@@ -215,54 +226,25 @@
 
         /* Animations */
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
         }
 
         @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #0f0c29;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #8e44ad;
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #9b59b6;
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f0c29; }
+        ::-webkit-scrollbar-thumb { background: #8e44ad; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #9b59b6; }
     </style>
 </head>
 
 <body>
 
-    <div class="background-animation" id="bgAnimation">
-
-    </div>
+    <div class="background-animation" id="bgAnimation"></div>
 
     <div class="container">
         <h2>Discord Asset by Roxy+</h2>
@@ -273,12 +255,13 @@
         </div>
 
         <button class="action-btn" onclick="fetchAssets()">F E T C H</button>
+        
+        <p class="default-option">Don't have an ID? <span onclick="loadDefaultAssets()">Click here for coding language image URLs</span></p>
 
         <div id="results"></div>
     </div>
 
     <script>
-
         const bgAnimation = document.getElementById('bgAnimation');
         for (let i = 0; i < 50; i++) {
             const star = document.createElement('div');
@@ -287,6 +270,13 @@
             star.style.top = Math.random() * 100 + '%';
             star.style.animationDuration = Math.random() * 5 + 3 + 's';
             bgAnimation.appendChild(star);
+        }
+
+        // NEW JS FUNCTION ADDED HERE
+        function loadDefaultAssets() {
+            const inputField = document.getElementById('appId');
+            inputField.value = '383226320970055681';
+            fetchAssets(); // Automatically trigger fetch after filling
         }
 
         async function fetchAssets() {
@@ -301,8 +291,6 @@
             resultsDiv.innerHTML = "<p style='color: #a64d79;'>Summoning assets...</p>";
 
             try {
-
-
                 const response = await fetch(`https://discord.com/api/v9/oauth2/applications/${appId}/assets`);
 
                 if (!response.ok) throw new Error("Assets not found or Invalid ID.");
@@ -341,11 +329,8 @@
         function copyToClipboard(button, text) {
             navigator.clipboard.writeText(text).then(() => {
                 const originalText = button.innerText;
-
-
                 button.innerText = "Copied!";
                 button.classList.add('copied');
-
 
                 setTimeout(() => {
                     button.innerText = originalText;
